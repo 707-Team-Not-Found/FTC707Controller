@@ -35,8 +35,11 @@ public class Robot {
     Drive driveBase;
     Gamepad gamepad1;
     Gamepad gamepad2;
+
+    Slide slides;
     public Robot(HardwareMap map, Gamepad gamepad1, Gamepad gamepad2) {
         Drive driveBase = new Drive(map);
+        Slide slides = new Slide(map);
         this.gamepad1 = gamepad1;
         this.gamepad2 = gamepad2;
     }
@@ -58,5 +61,12 @@ public class Robot {
         if(Math.abs(forward) > 0.1 || Math.abs(strafe) > 0.1 || Math.abs(turn) > 0.1){
             driveBase.drive(forward*0.3, strafe*0.3, turn*0.3);
         }
+    }
+
+    public void controlWithGamePad2() {
+        double LTAnalogue = gamepad2.left_trigger;
+        double RTAnalogue = gamepad2.right_trigger;
+
+        slides.slide(LTAnalogue, RTAnalogue);
     }
 }

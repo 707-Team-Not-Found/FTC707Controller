@@ -29,6 +29,32 @@
 
 package org.firstinspires.ftc.teamcode.subsystems;
 
+/*y is open claw, B is close claw
+RT is Up, LT is Down for slide
+DPAD Left is Intake Pos, Right is Outtake Pos, Up is Default./
+ */
+
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+
 public class Slide {
-    PID
+
+    DcMotor leftSlideMotor;
+    DcMotor rightSlideMotor;
+
+    final boolean LEFT_SLIDE_REVERSE = false;
+    final boolean RIGHT_SLIDE_REVERSE = true;
+    Slide(HardwareMap map) {
+        leftSlideMotor = map.get(DcMotor.class, "leftSlideMotor");
+        rightSlideMotor = map.get(DcMotor.class, "rightSlideMotor");
+    }
+
+    void slide(double LTTrigger, double RTTrigger) {
+        leftSlideMotor.setDirection(LEFT_SLIDE_REVERSE ? DcMotorSimple.Direction.REVERSE : DcMotorSimple.Direction.FORWARD);
+        rightSlideMotor.setDirection(RIGHT_SLIDE_REVERSE ? DcMotorSimple.Direction.REVERSE : DcMotorSimple.Direction.FORWARD);
+
+        leftSlideMotor.setPower(RTTrigger - LTTrigger);
+        rightSlideMotor.setPower(RTTrigger - LTTrigger);
+    }
 }
