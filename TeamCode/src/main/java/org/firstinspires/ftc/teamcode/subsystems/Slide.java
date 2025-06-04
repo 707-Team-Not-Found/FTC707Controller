@@ -37,24 +37,37 @@ DPAD Left is Intake Pos, Right is Outtake Pos, Up is Default./
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class Slide {
 
-    DcMotor leftSlideMotor;
-    DcMotor rightSlideMotor;
+    DcMotor slideMotor;
+    final boolean SLIDE_MOTOR_REVERSE = false;
+    double integralSum = 0;
+    final double KP = 0;
+    final double KI = 0;
+    final double KD = 0;
 
-    final boolean LEFT_SLIDE_REVERSE = false;
-    final boolean RIGHT_SLIDE_REVERSE = true;
+    ElapsedTime timer = new ElapsedTime();
+    double lastError = 0;
     Slide(HardwareMap map) {
-        leftSlideMotor = map.get(DcMotor.class, "leftSlideMotor");
-        rightSlideMotor = map.get(DcMotor.class, "rightSlideMotor");
+        slideMotor = map.get(DcMotor.class, "slideMotor");
+    }
+    void slide(double LTTrigger, double RTTrigger) {
+        slideMotor.setDirection(SLIDE_MOTOR_REVERSE ? DcMotorSimple.Direction.REVERSE : DcMotorSimple.Direction.FORWARD);
+
+        slideMotor.setPower(RTTrigger - LTTrigger);
     }
 
-    void slide(double LTTrigger, double RTTrigger) {
-        leftSlideMotor.setDirection(LEFT_SLIDE_REVERSE ? DcMotorSimple.Direction.REVERSE : DcMotorSimple.Direction.FORWARD);
-        rightSlideMotor.setDirection(RIGHT_SLIDE_REVERSE ? DcMotorSimple.Direction.REVERSE : DcMotorSimple.Direction.FORWARD);
+    double PIDControl(double reference, double state) {
+        double error = reference - state;
+        integralSum += error * timer.seconds();
 
-        leftSlideMotor.setPower(RTTrigger - LTTrigger);
-        rightSlideMotor.setPower(RTTrigger - LTTrigger);
+        double derivative = (error - lastError) / timer.seconds();
+        lastError = error;
+
+        timer.reset();
+
+        return (error * KP) + (derivative * KD) + (integralSum * KI);
     }
 }

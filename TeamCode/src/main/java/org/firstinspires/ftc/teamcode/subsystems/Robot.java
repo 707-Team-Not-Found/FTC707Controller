@@ -37,9 +37,12 @@ public class Robot {
     Gamepad gamepad2;
 
     Slide slides;
+
+    Pivot pivot;
     public Robot(HardwareMap map, Gamepad gamepad1, Gamepad gamepad2) {
         Drive driveBase = new Drive(map);
         Slide slides = new Slide(map);
+        Pivot pivot = new Pivot(map);
         this.gamepad1 = gamepad1;
         this.gamepad2 = gamepad2;
     }
@@ -67,6 +70,11 @@ public class Robot {
         double LTAnalogue = gamepad2.left_trigger;
         double RTAnalogue = gamepad2.right_trigger;
 
+        boolean LBumper = gamepad2.left_bumper;
+        boolean RBumper = gamepad2.right_bumper;
+
         slides.slide(LTAnalogue, RTAnalogue);
+
+        pivot.pivotControl(LBumper, RBumper);
     }
 }

@@ -29,5 +29,26 @@
 
 package org.firstinspires.ftc.teamcode.subsystems;
 
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
+
 public class Pivot {
+
+    Servo pivotServo;
+
+    double pivotServoAngle;
+
+    int pivotSpeed = 1;
+
+    Pivot (HardwareMap map) {
+        pivotServo = map.get(Servo.class, "pivotServo");
+        pivotServoAngle = pivotServo.getPosition();
+    }
+
+    void pivotControl (boolean LBumper, boolean RBumper) {
+        int LBumperInt = LBumper ? 1 : 0;
+        int RBumperInt = RBumper ? 1 : 0;
+        pivotServo.setPosition(pivotServoAngle + pivotSpeed * LBumperInt - pivotSpeed * RBumperInt);
+    }
+
 }
