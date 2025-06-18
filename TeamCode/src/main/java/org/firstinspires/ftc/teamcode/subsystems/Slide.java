@@ -37,37 +37,20 @@ DPAD Left is Intake Pos, Right is Outtake Pos, Up is Default./
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class Slide {
 
     DcMotor slideMotor;
+    PID PIDController;
     final boolean SLIDE_MOTOR_REVERSE = false;
-    double integralSum = 0;
-    final double KP = 0;
-    final double KI = 0;
-    final double KD = 0;
-
-    ElapsedTime timer = new ElapsedTime();
-    double lastError = 0;
     Slide(HardwareMap map) {
         slideMotor = map.get(DcMotor.class, "slideMotor");
     }
     void slide(double LTTrigger, double RTTrigger) {
+        
+
         slideMotor.setDirection(SLIDE_MOTOR_REVERSE ? DcMotorSimple.Direction.REVERSE : DcMotorSimple.Direction.FORWARD);
 
         slideMotor.setPower(RTTrigger - LTTrigger);
-    }
-
-    double PIDControl(double reference, double state) {
-        double error = reference - state;
-        integralSum += error * timer.seconds();
-
-        double derivative = (error - lastError) / timer.seconds();
-        lastError = error;
-
-        timer.reset();
-
-        return (error * KP) + (derivative * KD) + (integralSum * KI);
     }
 }
