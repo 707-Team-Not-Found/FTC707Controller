@@ -39,7 +39,6 @@ public class Pivot {
     double pivotServoAngle;
 
     int pivotSpeed = 1;
-
     Pivot (HardwareMap map) {
         pivotServo = map.get(Servo.class, "pivotServo");
         pivotServoAngle = pivotServo.getPosition();
@@ -49,6 +48,10 @@ public class Pivot {
         int LBumperInt = LBumper ? 1 : 0;
         int RBumperInt = RBumper ? 1 : 0;
         pivotServo.setPosition(pivotServoAngle + pivotSpeed * LBumperInt - pivotSpeed * RBumperInt);
+    }
+
+    void updatePivotServoAngle () {
+        pivotServoAngle = pivotServo.getPosition();
     }
 
 }

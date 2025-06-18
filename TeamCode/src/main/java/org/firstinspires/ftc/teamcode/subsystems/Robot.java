@@ -75,6 +75,7 @@ public class Robot {
 
         slides.slide(LTAnalogue, RTAnalogue);
 
+        pivot.updatePivotServoAngle();
         pivot.pivotControl(LBumper, RBumper);
     }
 }
