@@ -40,9 +40,9 @@ public class Robot {
 
     Pivot pivot;
     public Robot(HardwareMap map, Gamepad gamepad1, Gamepad gamepad2) {
-        Drive driveBase = new Drive(map);
-        Slide slides = new Slide(map);
-        Pivot pivot = new Pivot(map);
+        driveBase = new Drive(map);
+        slides = new Slide(map);
+        pivot = new Pivot(map);
         this.gamepad1 = gamepad1;
         this.gamepad2 = gamepad2;
     }
