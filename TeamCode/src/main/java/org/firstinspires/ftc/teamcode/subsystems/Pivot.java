@@ -44,9 +44,9 @@ public class Pivot {
 
     double previousTime = 0;
     double updateInterval = 100;
-    int outtakePos = 0; //change to outtake position
-    int intakePos = 0; //change to intake position
-    int defaultPos = 0; //change to default position
+    final int OUTTAKEPOS = 0; //change to outtake position
+    final int INTAKEPOS = 0; //change to intake position
+    final int DEFAULTPOS = 0; //change to default position
     Pivot (HardwareMap map) {
         pivotServo = map.get(Servo.class, "pivotServo");
         pivotServoAngle = pivotServo.getPosition();
@@ -63,9 +63,9 @@ public class Pivot {
             pivotServo.setPosition(pivotServoAngle + pivotSpeed * LBumperInt - pivotSpeed * RBumperInt);
             previousTime = currentTime;
         } else {
-            pivotServo.setPosition(DPADLeft ? intakePos : pivotServo.getPosition());
-            pivotServo.setPosition(DPADRight ? outtakePos : pivotServo.getPosition());
-            pivotServo.setPosition(DPADUp ? defaultPos : pivotServo.getPosition());
+            pivotServo.setPosition(DPADLeft ? INTAKEPOS : pivotServo.getPosition());
+            pivotServo.setPosition(DPADRight ? OUTTAKEPOS : pivotServo.getPosition());
+            pivotServo.setPosition(DPADUp ? DEFAULTPOS : pivotServo.getPosition());
         }
     }
 

@@ -39,10 +39,12 @@ public class Robot {
     Slide slides;
 
     Pivot pivot;
+    Claw claw;
     public Robot(HardwareMap map, Gamepad gamepad1, Gamepad gamepad2) {
         driveBase = new Drive(map);
         slides = new Slide(map);
         pivot = new Pivot(map);
+        claw = new Claw(map);
         this.gamepad1 = gamepad1;
         this.gamepad2 = gamepad2;
     }
@@ -77,9 +79,14 @@ public class Robot {
         boolean DPADRight = gamepad2.dpad_right;
         boolean DPADUp = gamepad2.dpad_up;
 
+        boolean YButton = gamepad2.y;
+        boolean BButton = gamepad2.b;
+
         slides.slide(LTAnalogue, RTAnalogue, DPADLeft, DPADRight, DPADUp);
 
         pivot.updatePivotServoAngle();
         pivot.pivotControl(LBumper, RBumper, DPADLeft, DPADRight, DPADUp);
+
+        claw.clawControl(YButton, BButton);
     }
 }
