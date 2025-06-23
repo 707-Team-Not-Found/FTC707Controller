@@ -27,50 +27,29 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.teamcode.subsystems;
+package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-public class Pivot {
+import org.firstinspires.ftc.teamcode.subsystems.Robot;
 
-    Servo pivotServo;
+@TeleOp(name="FullOpMode", group="Linear OpMode")
+public class FullOpMode extends LinearOpMode {
 
-    double pivotServoAngle;
+    Robot robot;
 
-    int pivotSpeed = 1;
-    ElapsedTime elapsedTime = new ElapsedTime();
+    @Override
+    public void runOpMode() {
 
-    double previousTime = 0;
-    double updateInterval = 100;
-    int outtakePos = 0; //change to outtake position
-    int intakePos = 0; //change to intake position
-    int defaultPos = 0; //change to default position
-    Pivot (HardwareMap map) {
-        pivotServo = map.get(Servo.class, "pivotServo");
-        pivotServoAngle = pivotServo.getPosition();
-    }
+        robot = new Robot(hardwareMap, gamepad1, gamepad2);
 
-    void pivotControl (boolean LBumper, boolean RBumper, boolean DPADLeft, boolean DPADRight, boolean DPADUp) {
-        int LBumperInt = LBumper ? 1 : 0;
-        int RBumperInt = RBumper ? 1 : 0;
+        waitForStart();
 
-        double currentTime = elapsedTime.milliseconds();
-
-        if ((currentTime - previousTime >= updateInterval) && (!DPADLeft && !DPADRight && !DPADUp)) {
-            // May need to clamp servo range so no overshooting
-            pivotServo.setPosition(pivotServoAngle + pivotSpeed * LBumperInt - pivotSpeed * RBumperInt);
-            previousTime = currentTime;
-        } else {
-            pivotServo.setPosition(DPADLeft ? intakePos : pivotServo.getPosition());
-            pivotServo.setPosition(DPADRight ? outtakePos : pivotServo.getPosition());
-            pivotServo.setPosition(DPADUp ? defaultPos : pivotServo.getPosition());
+        while (opModeIsActive()) {
+            robot.driveWithGamePad1();
+            robot.driveWithGamePad2();
+            robot.controlWithGamePad2();
         }
     }
-
-    void updatePivotServoAngle () {
-        pivotServoAngle = pivotServo.getPosition();
-    }
-
 }

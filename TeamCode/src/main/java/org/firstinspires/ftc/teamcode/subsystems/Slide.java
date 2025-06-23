@@ -31,8 +31,8 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 /*y is open claw, B is close claw
 RT is Up, LT is Down for slide
-DPAD Left is Intake Pos, Right is Outtake Pos, Up is Default./
- */
+DPAD Left is Intake Pos, Right is Outtake Pos, Up is Default.
+*/
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -43,14 +43,44 @@ public class Slide {
     DcMotor slideMotor;
     PID PIDController;
     final boolean SLIDE_MOTOR_REVERSE = false;
+    final double KP = 0;
+    final double KI = 0;
+    final double KD = 0;
+
+    double targetPosition;
+    double positionStep = 20; //change to fit
+    double minPosition = 0; //change to fit
+    double maxPosition = 3000; //change to fit
+
+    int outtakePos = 0; //change to outtake position
+    int intakePos = 0; //change to intake position
+    int defaultPos = 0; //change to default position
     Slide(HardwareMap map) {
         slideMotor = map.get(DcMotor.class, "slideMotor");
-    }
-    void slide(double LTTrigger, double RTTrigger) {
-        
-
+        slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        slideMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         slideMotor.setDirection(SLIDE_MOTOR_REVERSE ? DcMotorSimple.Direction.REVERSE : DcMotorSimple.Direction.FORWARD);
 
-        slideMotor.setPower(RTTrigger - LTTrigger);
+        PIDController = new PID(KP, KI, KD);
+
+        targetPosition = slideMotor.getCurrentPosition();
+    }
+    void slide(double LTTrigger, double RTTrigger, boolean DPADLeft, boolean DPADRight, boolean DPADUp) {
+
+        if (!DPADLeft && !DPADRight && !DPADUp) {
+            targetPosition += positionStep * (RTTrigger - LTTrigger);
+            targetPosition = Math.max(minPosition, Math.min(maxPosition, targetPosition));
+
+            double currentPosition = slideMotor.getCurrentPosition();
+            double power = PIDController.update(targetPosition, currentPosition);
+
+            power = Math.max(-1.0, Math.min(1.0, power));
+
+            slideMotor.setPower(power);
+        } else {
+            slideMotor.setTargetPosition(DPADLeft ? intakePos : slideMotor.getCurrentPosition());
+            slideMotor.setTargetPosition(DPADRight ? outtakePos : slideMotor.getCurrentPosition());
+            slideMotor.setTargetPosition(DPADUp ? defaultPos : slideMotor.getCurrentPosition());
+        }
     }
 }

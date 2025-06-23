@@ -73,9 +73,13 @@ public class Robot {
         boolean LBumper = gamepad2.left_bumper;
         boolean RBumper = gamepad2.right_bumper;
 
-        slides.slide(LTAnalogue, RTAnalogue);
+        boolean DPADLeft = gamepad2.dpad_left;
+        boolean DPADRight = gamepad2.dpad_right;
+        boolean DPADUp = gamepad2.dpad_up;
+
+        slides.slide(LTAnalogue, RTAnalogue, DPADLeft, DPADRight, DPADUp);
 
         pivot.updatePivotServoAngle();
-        pivot.pivotControl(LBumper, RBumper);
+        pivot.pivotControl(LBumper, RBumper, DPADLeft, DPADRight, DPADUp);
     }
 }
