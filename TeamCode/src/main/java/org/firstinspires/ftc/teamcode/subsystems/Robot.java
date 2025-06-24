@@ -35,9 +35,7 @@ public class Robot {
     Drive driveBase;
     Gamepad gamepad1;
     Gamepad gamepad2;
-
     Slide slides;
-
     Pivot pivot;
     Claw claw;
     public Robot(HardwareMap map, Gamepad gamepad1, Gamepad gamepad2) {
