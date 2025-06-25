@@ -28,6 +28,7 @@
  */
 
 package org.firstinspires.ftc.teamcode.subsystems;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -35,14 +36,14 @@ public class Robot {
     Drive driveBase;
     Gamepad gamepad1;
     Gamepad gamepad2;
-    Slide slides;
-    Pivot pivot;
-    Claw claw;
+    //Slide slides;
+    //Pivot pivot;
+    //Claw claw;
     public Robot(HardwareMap map, Gamepad gamepad1, Gamepad gamepad2) {
         driveBase = new Drive(map);
-        slides = new Slide(map);
-        pivot = new Pivot(map);
-        claw = new Claw(map);
+        //slides = new Slide(map);
+        //pivot = new Pivot(map);
+        //claw = new Claw(map);
         this.gamepad1 = gamepad1;
         this.gamepad2 = gamepad2;
     }
@@ -54,6 +55,19 @@ public class Robot {
         double turn = gamepad1.right_stick_x;
 
         driveBase.drive(forward, strafe, turn);
+    }
+
+    public void driveWithGamePad1Test(HardwareMap map){
+
+        boolean YButton = gamepad1.y;
+        boolean BButton = gamepad1.b;
+        boolean AButton = gamepad1.a;
+        boolean XButton = gamepad1.x;
+
+        if(YButton){map.get(DcMotor.class, "frontLeftMotor").setPower(1);}
+        if(BButton){map.get(DcMotor.class, "backLeftMotor").setPower(1);}
+        if(AButton){map.get(DcMotor.class, "frontRightMotor").setPower(1);}
+        if(XButton){map.get(DcMotor.class, "backRightMotor").setPower(1);}
     }
 
     public void driveWithGamePad2() {
@@ -80,12 +94,12 @@ public class Robot {
         boolean YButton = gamepad2.y;
         boolean BButton = gamepad2.b;
 
-        slides.setSlidePosition(LTAnalogue, RTAnalogue, DPADLeft, DPADRight, DPADUp);
-        slides.update();
+        //slides.setSlidePosition(LTAnalogue, RTAnalogue, DPADLeft, DPADRight, DPADUp);
+        //slides.update();
 
-        pivot.updatePivotServoAngle();
-        pivot.pivotControl(LBumper, RBumper, DPADLeft, DPADRight, DPADUp);
+        //pivot.updatePivotServoAngle();
+        //pivot.pivotControl(LBumper, RBumper, DPADLeft, DPADRight, DPADUp);
 
-        claw.clawControl(YButton, BButton);
+        //claw.clawControl(YButton, BButton);
     }
 }

@@ -43,7 +43,6 @@ public class Pivot {
     ElapsedTime elapsedTime = new ElapsedTime();
 
     double previousTime = 0;
-    double updateInterval = 100;
     final int OUTTAKEPOS = 0; //change to outtake position
     final int INTAKEPOS = 0; //change to intake position
     final int DEFAULTPOS = 0; //change to default position
