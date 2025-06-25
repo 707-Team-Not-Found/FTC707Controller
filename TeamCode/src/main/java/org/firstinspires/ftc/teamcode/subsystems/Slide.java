@@ -52,9 +52,10 @@ public class Slide {
     double minPosition = 0; //change to fit
     double maxPosition = 3000; //change to fit
 
-    int outtakePos = 0; //change to outtake position
-    int intakePos = 0; //change to intake position
-    int defaultPos = 0; //change to default position
+    final int OUTTAKEPOS = 0; //change to outtake position
+    final int INTAKEPOS = 0; //change to intake position
+    final int DEFAULTPOS = 0; //change to default position
+    double currentPosition;
     Slide(HardwareMap map) {
         slideMotor = map.get(DcMotor.class, "slideMotor");
         slideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -65,22 +66,34 @@ public class Slide {
 
         targetPosition = slideMotor.getCurrentPosition();
     }
-    void slide(double LTTrigger, double RTTrigger, boolean DPADLeft, boolean DPADRight, boolean DPADUp) {
+    void setSlidePosition(double LTTrigger, double RTTrigger, boolean DPADLeft, boolean DPADRight, boolean DPADUp) {
 
+        //method ONLY sets target position
         if (!DPADLeft && !DPADRight && !DPADUp) {
             targetPosition += positionStep * (RTTrigger - LTTrigger);
             targetPosition = Math.max(minPosition, Math.min(maxPosition, targetPosition));
 
-            double currentPosition = slideMotor.getCurrentPosition();
-            double power = PIDController.update(targetPosition, currentPosition);
 
-            power = Math.max(-1.0, Math.min(1.0, power));
 
-            slideMotor.setPower(power);
+        } else if (DPADLeft){
+            targetPosition = INTAKEPOS;
+
+        } else if (DPADRight) {
+            targetPosition = OUTTAKEPOS;
+
         } else {
-            slideMotor.setTargetPosition(DPADLeft ? intakePos : slideMotor.getCurrentPosition());
-            slideMotor.setTargetPosition(DPADRight ? outtakePos : slideMotor.getCurrentPosition());
-            slideMotor.setTargetPosition(DPADUp ? defaultPos : slideMotor.getCurrentPosition());
+            targetPosition = DEFAULTPOS;
+
         }
+    }
+    public void update() {
+        //move slide to target position
+        currentPosition = slideMotor.getCurrentPosition();
+
+        double power = PIDController.update(targetPosition, currentPosition);
+
+        power = Math.max(-1.0, Math.min(1.0, power));
+
+        slideMotor.setPower(power);
     }
 }

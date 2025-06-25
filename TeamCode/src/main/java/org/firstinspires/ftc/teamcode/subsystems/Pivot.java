@@ -58,15 +58,13 @@ public class Pivot {
 
         double currentTime = elapsedTime.milliseconds();
 
-        if ((currentTime - previousTime >= updateInterval) && (!DPADLeft && !DPADRight && !DPADUp)) {
+        if (!DPADLeft && !DPADRight && !DPADUp) {
             // May need to clamp servo range so no overshooting
-            pivotServo.setPosition(pivotServoAngle + pivotSpeed * LBumperInt - pivotSpeed * RBumperInt);
+            pivotServo.setPosition(pivotServoAngle + pivotSpeed * (currentTime - previousTime) * LBumperInt - pivotSpeed * (currentTime - previousTime) * RBumperInt);
             previousTime = currentTime;
-        } else {
-            pivotServo.setPosition(DPADLeft ? INTAKEPOS : pivotServo.getPosition());
-            pivotServo.setPosition(DPADRight ? OUTTAKEPOS : pivotServo.getPosition());
-            pivotServo.setPosition(DPADUp ? DEFAULTPOS : pivotServo.getPosition());
-        }
+        } else if (DPADLeft){pivotServo.setPosition(INTAKEPOS);}
+          else if (DPADRight){pivotServo.setPosition(OUTTAKEPOS);}
+          else { pivotServo.setPosition(DEFAULTPOS);}
     }
 
     void updatePivotServoAngle () {

@@ -80,7 +80,8 @@ public class Robot {
         boolean YButton = gamepad2.y;
         boolean BButton = gamepad2.b;
 
-        slides.slide(LTAnalogue, RTAnalogue, DPADLeft, DPADRight, DPADUp);
+        slides.setSlidePosition(LTAnalogue, RTAnalogue, DPADLeft, DPADRight, DPADUp);
+        slides.update();
 
         pivot.updatePivotServoAngle();
         pivot.pivotControl(LBumper, RBumper, DPADLeft, DPADRight, DPADUp);
