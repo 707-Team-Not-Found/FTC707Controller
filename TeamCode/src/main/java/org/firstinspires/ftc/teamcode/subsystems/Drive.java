@@ -55,10 +55,10 @@ public class Drive{
     DcMotor backLeftMotor;
     DcMotor backRightMotor;
 
-    final boolean FRONT_LEFT_REVERSE = false;
+    final boolean FRONT_LEFT_REVERSE = true;
     final boolean BACK_LEFT_REVERSE = false;
     final boolean FRONT_RIGHT_REVERSE = true;
-    final boolean BACK_RIGHT_REVERSE = true;
+    final boolean BACK_RIGHT_REVERSE = false;
     Drive(HardwareMap map) {
 
         frontLeftMotor = map.get(DcMotor.class, "frontLeftMotor");

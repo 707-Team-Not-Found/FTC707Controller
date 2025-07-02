@@ -47,7 +47,7 @@ public class DriveGamepad1OnlyOpMode extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            robot.driveWithGamePad1Test(hardwareMap);
+            robot.driveWithGamePad1();
         }
     }
 }
