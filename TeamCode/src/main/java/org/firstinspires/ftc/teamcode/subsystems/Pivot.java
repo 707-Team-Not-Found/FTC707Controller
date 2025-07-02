@@ -41,7 +41,6 @@ public class Pivot {
 
     int pivotSpeed = 1;
     ElapsedTime elapsedTime = new ElapsedTime();
-
     double previousTime = 0;
     final int OUTTAKEPOS = 0; //change to outtake position
     final int INTAKEPOS = 0; //change to intake position
@@ -68,6 +67,11 @@ public class Pivot {
 
     void updatePivotServoAngle () {
         pivotServoAngle = pivotServo.getPosition();
+    }
+
+    public void AutoPivotMove (double power){
+        updatePivotServoAngle();
+        pivotServo.setPosition(pivotServoAngle + pivotSpeed);
     }
 
 }

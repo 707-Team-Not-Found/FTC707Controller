@@ -96,4 +96,8 @@ public class Slide {
 
         slideMotor.setPower(power);
     }
+
+    public void setTargetPosition (double targetPosition) {
+        this.targetPosition = targetPosition;
+    }
 }

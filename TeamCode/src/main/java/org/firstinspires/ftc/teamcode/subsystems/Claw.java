@@ -12,7 +12,15 @@ public class Claw {
     }
 
     void clawControl (boolean YButton, boolean BButton) {
-        clawServo.setPosition(YButton ? OPENEDSTATE : clawServo.getPosition());
-        clawServo.setPosition(BButton ? CLOSEDSTATE : clawServo.getPosition());
+        if (YButton) {clawServo.setPosition(OPENEDSTATE);}
+        if (BButton) {clawServo.setPosition(CLOSEDSTATE);}
+    }
+
+    public void setState (boolean state){
+        if (state) { //True close
+            clawServo.setPosition(CLOSEDSTATE);
+        } else {
+            clawServo.setPosition(OPENEDSTATE);
+        }
     }
 }

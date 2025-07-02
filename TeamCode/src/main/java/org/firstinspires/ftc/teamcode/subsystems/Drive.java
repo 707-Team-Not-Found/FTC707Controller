@@ -67,7 +67,7 @@ public class Drive{
         backRightMotor = map.get(DcMotor.class, "backRightMotor");
     }
 
-    void drive(double forward, double strafe, double turn) {
+    public void drive(double forward, double strafe, double turn) {
         double frontLeftSpeed = forward + turn + strafe;
         double backLeftSpeed = forward + turn - strafe;
         double frontRightSpeed = forward - turn - strafe;

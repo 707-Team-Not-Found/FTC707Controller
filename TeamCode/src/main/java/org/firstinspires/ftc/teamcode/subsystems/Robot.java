@@ -33,17 +33,18 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class Robot {
-    Drive driveBase;
+    public Drive driveBase;
     Gamepad gamepad1;
     Gamepad gamepad2;
-    //Slide slides;
-    //Pivot pivot;
-    //Claw claw;
+    public Slide slides;
+    public Pivot pivot;
+    public Claw claw;
+
     public Robot(HardwareMap map, Gamepad gamepad1, Gamepad gamepad2) {
         driveBase = new Drive(map);
-        //slides = new Slide(map);
-        //pivot = new Pivot(map);
-        //claw = new Claw(map);
+        slides = new Slide(map);
+        pivot = new Pivot(map);
+        claw = new Claw(map);
         this.gamepad1 = gamepad1;
         this.gamepad2 = gamepad2;
     }
@@ -54,6 +55,9 @@ public class Robot {
         double strafe = gamepad1.left_stick_x;
         double turn = gamepad1.right_stick_x;
 
+        boolean controlSpeed = gamepad1.x;
+
+        
         driveBase.drive(forward, strafe, turn);
     }
 
@@ -94,12 +98,12 @@ public class Robot {
         boolean YButton = gamepad2.y;
         boolean BButton = gamepad2.b;
 
-        //slides.setSlidePosition(LTAnalogue, RTAnalogue, DPADLeft, DPADRight, DPADUp);
-        //slides.update();
+        slides.setSlidePosition(LTAnalogue, RTAnalogue, DPADLeft, DPADRight, DPADUp);
+        slides.update();
 
-        //pivot.updatePivotServoAngle();
-        //pivot.pivotControl(LBumper, RBumper, DPADLeft, DPADRight, DPADUp);
+        pivot.updatePivotServoAngle();
+        pivot.pivotControl(LBumper, RBumper, DPADLeft, DPADRight, DPADUp);
 
-        //claw.clawControl(YButton, BButton);
+        claw.clawControl(YButton, BButton);
     }
 }
