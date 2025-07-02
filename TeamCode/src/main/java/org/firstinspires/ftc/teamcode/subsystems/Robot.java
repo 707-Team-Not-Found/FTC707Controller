@@ -57,8 +57,11 @@ public class Robot {
 
         boolean controlSpeed = gamepad1.x;
 
-        
-        driveBase.drive(forward, strafe, turn);
+        if (controlSpeed) {
+            driveBase.drive(forward * 0.3, strafe*0.3, turn*0.3);
+        } else {
+            driveBase.drive(forward, strafe, turn);
+        }
     }
 
     public void driveWithGamePad1Test(HardwareMap map){
