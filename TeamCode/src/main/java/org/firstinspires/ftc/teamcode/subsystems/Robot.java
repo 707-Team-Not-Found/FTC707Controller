@@ -101,12 +101,12 @@ public class Robot {
         boolean YButton = gamepad2.y;
         boolean BButton = gamepad2.b;
 
-        slides.setSlidePosition(LTAnalogue, RTAnalogue, DPADLeft, DPADRight, DPADUp);
+        claw.clawControl(YButton, BButton, DPADLeft, DPADRight, DPADUp);
+
         slides.update();
+        slides.setSlidePosition(LTAnalogue, RTAnalogue, DPADLeft, DPADRight, DPADUp);
 
         pivot.updatePivotServoAngle();
         pivot.pivotControl(LBumper, RBumper, DPADLeft, DPADRight, DPADUp);
-
-        claw.clawControl(YButton, BButton);
     }
 }
