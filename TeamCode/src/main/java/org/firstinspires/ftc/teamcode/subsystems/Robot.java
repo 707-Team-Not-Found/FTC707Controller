@@ -28,6 +28,8 @@
  */
 
 package org.firstinspires.ftc.teamcode.subsystems;
+import static java.lang.Math.abs;
+
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -50,17 +52,18 @@ public class Robot {
     }
 
     public void driveWithGamePad1(){
+        if (abs(gamepad2.left_stick_x + gamepad2.left_stick_y + gamepad2.right_stick_x) < 0.1) {
+            double forward = gamepad1.left_stick_y;
+            double strafe = gamepad1.left_stick_x;
+            double turn = gamepad1.right_stick_x;
 
-        double forward = gamepad1.left_stick_y;
-        double strafe = gamepad1.left_stick_x;
-        double turn = gamepad1.right_stick_x;
+            boolean controlSpeed = gamepad1.x;
 
-        boolean controlSpeed = gamepad1.x;
-
-        if (controlSpeed) {
-            driveBase.drive(forward * 0.3, strafe*0.3, turn*0.3);
-        } else {
-            driveBase.drive(forward, strafe, turn);
+            if (controlSpeed) {
+                driveBase.drive(forward * 0.3, strafe * 0.3, turn * 0.3);
+            } else {
+                driveBase.drive(forward, strafe, turn);
+            }
         }
     }
 
@@ -82,8 +85,11 @@ public class Robot {
         double strafe = gamepad2.left_stick_x;
         double turn = gamepad2.right_stick_x;
 
-        if(Math.abs(forward) > 0.1 || Math.abs(strafe) > 0.1 || Math.abs(turn) > 0.1){
+        if(abs(forward) > 0.1 || abs(strafe) > 0.1 || abs(turn) > 0.1){
             driveBase.drive(forward*0.3, strafe*0.3, turn*0.3);
+            if (gamepad2.x) {
+                driveBase.drive(forward, strafe, turn);
+            }
         }
     }
 
